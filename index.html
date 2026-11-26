@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ammara Girls Academy — the first girls academy of Sakhi Sarwar. Admissions open for all classes, 1st to 2nd Year." />
+  <title>Ammara Girls Academy — First Girls Academy of Sakhi Sarwar</title>
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-brand-bar"></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <span class="brand-logo"><img src="logo.png" alt="Ammara Girls Academy logo" /></span>
+        <span class="brand-text">
+          <strong>Ammara Girls <span>Academy</span></strong>
+          <small>First Girls Academy of Sakhi Sarwar</small>
+        </span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#classes">Classes</a>
+        <a href="#admissions">Admissions</a>
+        <a href="#teachers">Teachers</a>
+        <a href="#notices">Notices</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <span class="open-badge">Admissions Open</span>
+        <a class="btn btn-navy btn-sm" href="#admissions">Apply Now</a>
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-logo"><img src="logo.png" alt="Ammara Girls Academy logo" /></div>
+      <p class="hero-eyebrow">Sakhi Sarwar</p>
+      <h1>First Girls Academy<br />of Sakhi Sarwar</h1>
+      <p class="hero-sub">Admissions Open for All Classes — Classes: 1st to 2nd Year</p>
+      <p class="hero-line">Experienced female staff &bull; Special classes for 9th, 10th, 1st Year &amp; 2nd Year</p>
+      <div class="class-pills" aria-label="Special classes">
+        <span class="pill pill-9th">9th</span>
+        <span class="pill pill-10th">10th</span>
+        <span class="pill pill-1st">1st Year</span>
+        <span class="pill pill-2nd">2nd Year</span>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn btn-gold" href="#admissions">Apply for Admission</a>
+        <a class="btn btn-outline-light" href="#download">Download App</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section" id="about">
+    <div class="container">
+      <h2 class="sec-title">About the Academy</h2>
+      <p class="sec-sub">Education &bull; Confidence &bull; Bright Future</p>
+      <p class="lead">Ammara Girls Academy is the first girls academy of Sakhi Sarwar. Girls study here from Class 1 to 2nd Year, taught by experienced female staff. The academy is led by Principal Miss Ammara Bibi.</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon bg-navy">&#10003;</div>
+          <h3>First Girls Academy</h3>
+          <p>The first academy for girls in Sakhi Sarwar.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon bg-maroon">&#9829;</div>
+          <h3>Experienced Female Staff</h3>
+          <p>Taught by experienced female teachers.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon bg-gold">&#9733;</div>
+          <h3>Classes 1st to 2nd Year</h3>
+          <p>From primary to intermediate, including special classes for 9th, 10th, 1st Year and 2nd Year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLASSES ================= -->
+  <section class="section section-alt" id="classes">
+    <div class="container">
+      <h2 class="sec-title">Classes &amp; Programs</h2>
+      <p class="sec-sub">Admissions open for all classes</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="class-tag">Class 1 &ndash; 8</div>
+          <h3>Primary &amp; Middle</h3>
+          <p>Classes 1 to 8 — primary and middle school.</p>
+        </div>
+        <div class="card">
+          <div class="class-tag tag-9th">9th</div>
+          <h3>Class 9th</h3>
+          <p>Special class for 9th.</p>
+        </div>
+        <div class="card">
+          <div class="class-tag tag-10th">10th</div>
+          <h3>Class 10th</h3>
+          <p>Special class for 10th.</p>
+        </div>
+        <div class="card">
+          <div class="class-tag tag-1st">1st Year</div>
+          <h3>1st Year</h3>
+          <p>Intermediate — special class for 1st Year.</p>
+        </div>
+        <div class="card">
+          <div class="class-tag tag-2nd">2nd Year</div>
+          <h3>2nd Year</h3>
+          <p>Intermediate — special class for 2nd Year.</p>
+        </div>
+      </div>
+      <div class="special-band">
+        <strong>Special Classes:</strong> 9th &bull; 10th &bull; 1st Year &bull; 2nd Year
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ADMISSIONS ================= -->
+  <section class="section" id="admissions">
+    <div class="container">
+      <h2 class="sec-title">Admissions — New Enrollment</h2>
+      <p class="sec-sub">Admission is open for all classes. Fill in the form and the academy office will contact you.</p>
+      <div class="form-card">
+        <form id="admission-form" novalidate>
+          <div class="form-row">
+            <div class="form-grp">
+              <label for="student-name">Student name *</label>
+              <input id="student-name" name="student_name" type="text" autocomplete="off" placeholder="Student's full name" />
+              <p class="field-err" id="err-student-name"></p>
+            </div>
+            <div class="form-grp">
+              <label for="father-name">Father / Guardian name *</label>
+              <input id="father-name" name="father_name" type="text" autocomplete="off" placeholder="Father or guardian's name" />
+              <p class="field-err" id="err-father-name"></p>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-grp">
+              <label for="dob">Date of birth</label>
+              <input id="dob" name="dob" type="date" />
+            </div>
+            <div class="form-grp">
+              <label for="gender">Gender</label>
+              <select id="gender" name="gender">
+                <option value="Girl" selected>Girl</option>
+                <option value="Boy">Boy</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-grp">
+              <label for="class-applying">Class applying for *</label>
+              <select id="class-applying" name="class_applying">
+                <option value="" selected>Select a class</option>
+                <option>Class 1</option>
+                <option>Class 2</option>
+                <option>Class 3</option>
+                <option>Class 4</option>
+                <option>Class 5</option>
+                <option>Class 6</option>
+                <option>Class 7</option>
+                <option>Class 8</option>
+                <option>9th</option>
+                <option>10th</option>
+                <option>1st Year</option>
+                <option>2nd Year</option>
+              </select>
+              <p class="field-err" id="err-class-applying"></p>
+            </div>
+            <div class="form-grp">
+              <label for="previous-school">Previous school (optional)</label>
+              <input id="previous-school" name="previous_school" type="text" autocomplete="off" placeholder="Previous school, if any" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-grp">
+              <label for="guardian-phone">Guardian phone *</label>
+              <input id="guardian-phone" name="guardian_phone" type="tel" autocomplete="off" placeholder="03xx-xxxxxxx" />
+              <p class="field-err" id="err-guardian-phone"></p>
+            </div>
+            <div class="form-grp">
+              <label for="address">Address (optional)</label>
+              <input id="address" name="address" type="text" autocomplete="off" placeholder="Home address" />
+            </div>
+          </div>
+          <p class="form-note">You can also visit the academy office in Sakhi Sarwar to apply in person.</p>
+          <button type="submit" class="btn btn-navy btn-block" id="admission-submit">Submit Application</button>
+          <p class="form-msg" id="admission-msg" role="status"></p>
+        </form>
+        <div class="form-success hidden" id="admission-success">
+          <div class="success-check">&#10003;</div>
+          <h3>Application received</h3>
+          <p>Application received — the academy office will contact you.</p>
+          <button type="button" class="btn btn-outline-navy" id="admission-again">Submit another application</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TEACHERS ================= -->
+  <section class="section section-alt" id="teachers">
+    <div class="container">
+      <h2 class="sec-title">Our Teachers</h2>
+      <p class="sec-sub">Experienced female staff</p>
+      <div class="card-grid teachers-grid">
+        <div class="card teacher-card">
+          <div class="avatar avatar-navy">MB</div>
+          <h3>Miss Ammara Bibi</h3>
+          <p class="teacher-role">Principal</p>
+        </div>
+        <div class="card teacher-card">
+          <div class="avatar avatar-maroon">SS</div>
+          <h3>Sadaf Sarwar</h3>
+          <p class="teacher-role">English — Classes 9th &amp; 10th</p>
+          <p class="teacher-note">Class Teacher, 9th</p>
+        </div>
+        <div class="card teacher-card">
+          <div class="avatar avatar-gold">SN</div>
+          <h3>Saima Noreen</h3>
+          <p class="teacher-role">Teacher</p>
+        </div>
+        <div class="card teacher-card">
+          <div class="avatar avatar-purple">RT</div>
+          <h3>Rabia Tariq</h3>
+          <p class="teacher-role">Teacher</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ACADEMIC CALENDAR ================= -->
+  <section class="section" id="calendar">
+    <div class="container">
+      <h2 class="sec-title">Academic Calendar</h2>
+      <p class="sec-sub">Session 2026&ndash;2027</p>
+      <div class="card-grid">
+        <div class="card">
+          <div class="term-tag">First Term</div>
+          <h3>1 Sep 2026 &ndash; 15 Dec 2026</h3>
+          <p>First term of the 2026&ndash;2027 session.</p>
+        </div>
+        <div class="card">
+          <div class="term-tag">Second Term</div>
+          <h3>1 Jan 2027 &ndash; 31 Mar 2027</h3>
+          <p>Second term of the 2026&ndash;2027 session.</p>
+        </div>
+        <div class="card">
+          <div class="term-tag">Third Term</div>
+          <h3>1 Apr 2027 &ndash; 30 Jun 2027</h3>
+          <p>Third term of the 2026&ndash;2027 session.</p>
+        </div>
+      </div>
+      <p class="small-note">Dates follow the academy session plan. Contact the office for details.</p>
+    </div>
+  </section>
+
+  <!-- ================= NOTICES ================= -->
+  <section class="section section-alt" id="notices">
+    <div class="container">
+      <h2 class="sec-title">Notices</h2>
+      <p class="sec-sub">Latest announcements from the academy</p>
+      <div id="notices-list" class="notices-list">
+        <p class="notices-state">Loading notices&hellip;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEES ================= -->
+  <section class="section" id="fees">
+    <div class="container">
+      <h2 class="sec-title">Fees</h2>
+      <p class="sec-sub">Class-wise fee details</p>
+      <div class="form-card">
+        <p class="lead" style="margin-bottom:0;">Fee details depend on the class. Visit the academy office in Sakhi Sarwar or apply online and the office will share the class-wise fee.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="section section-alt" id="contact">
+    <div class="container">
+      <h2 class="sec-title">Contact</h2>
+      <p class="sec-sub">Visit the academy office, Sakhi Sarwar — or send a message below</p>
+      <div class="form-card">
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="form-grp">
+              <label for="contact-name">Your name *</label>
+              <input id="contact-name" name="name" type="text" autocomplete="off" placeholder="Your name" />
+              <p class="field-err" id="err-contact-name"></p>
+            </div>
+            <div class="form-grp">
+              <label for="contact-phone">Phone *</label>
+              <input id="contact-phone" name="phone" type="tel" autocomplete="off" placeholder="03xx-xxxxxxx" />
+              <p class="field-err" id="err-contact-phone"></p>
+            </div>
+          </div>
+          <div class="form-grp">
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="message" rows="4" placeholder="Write your message here"></textarea>
+            <p class="field-err" id="err-contact-message"></p>
+          </div>
+          <button type="submit" class="btn btn-navy btn-block" id="contact-submit">Send Message</button>
+          <p class="form-msg" id="contact-msg" role="status"></p>
+        </form>
+        <div class="form-success hidden" id="contact-success">
+          <div class="success-check">&#10003;</div>
+          <h3>Message received</h3>
+          <p>Thank you — the academy office will get back to you.</p>
+          <button type="button" class="btn btn-outline-navy" id="contact-again">Send another message</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DOWNLOAD APP ================= -->
+  <section class="section" id="download">
+    <div class="container">
+      <div class="download-card">
+        <div class="download-logo"><img src="logo.png" alt="Ammara Girls Academy logo" /></div>
+        <h2 class="sec-title">Get the Ammara Academy App</h2>
+        <p class="sec-sub">The same academy app — login for admin, teacher and parent.</p>
+        <a class="btn btn-gold" href="academy.apk" download>Download App (Android)</a>
+        <p class="small-note">Android APK &bull; Installs over older versions of the app.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="brand-logo"><img src="logo.png" alt="Ammara Girls Academy logo" /></span>
+        <div>
+          <strong>Ammara Girls Academy</strong>
+          <p>First Girls Academy of Sakhi Sarwar</p>
+          <p class="footer-open">Admissions Open for All Classes</p>
+        </div>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#classes">Classes</a>
+        <a href="#admissions">Admissions</a>
+        <a href="#teachers">Teachers</a>
+        <a href="#notices">Notices</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">&copy; 2026 Ammara Girls Academy, Sakhi Sarwar</div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
