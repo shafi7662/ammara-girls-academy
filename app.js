@@ -366,6 +366,14 @@ function phoneOk(v) {
     } else {
       html += '<p class="status-empty">No published results yet.</p>';
     }
+    if (d.activities && d.activities.length) {
+      html += '<h4>Class activities</h4><ul class="status-list">';
+      d.activities.forEach(function (a) {
+        html += '<li><span>' + escHtml(a.title) + (a.body ? ' &mdash; ' + escHtml(a.body) : '')
+          + '</span><strong>' + escHtml(a.date || "") + '</strong></li>';
+      });
+      html += '</ul>';
+    }
     if (d.notices && d.notices.length) {
       html += '<h4>Latest notices</h4><ul class="status-list">';
       d.notices.forEach(function (n) {
