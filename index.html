@@ -29,6 +29,8 @@
         <a href="#teachers">Teachers</a>
         <a href="#notices">Notices</a>
         <a href="#contact">Contact</a>
+        <a href="#" data-modal="status-modal">Status Check</a>
+        <a href="#" data-modal="admin-modal">Admin Login</a>
       </nav>
       <div class="header-actions">
         <span class="open-badge">Admissions Open</span>
@@ -58,7 +60,7 @@
         <a class="btn btn-gold" href="#admissions">Admission &mdash; New Enrollment</a>
         <a class="btn btn-outline-light" href="#download">Download App</a>
       </div>
-      <p class="hero-alt-link"><a href="#status">Check admission status with Role ID</a></p>
+      <p class="hero-alt-link"><a href="#" data-modal="status-modal">Check admission status with Role ID</a></p>
     </div>
   </section>
 
@@ -131,8 +133,11 @@
     <div class="container">
       <h2 class="sec-title">Admissions &mdash; New Enrollment</h2>
       <p class="sec-sub">Admission is open for all classes. Fill in the form and the academy office will contact you.</p>
-      <p class="sec-link">Already applied? <a href="#status">Check admission status with the Role ID</a></p>
-      <div class="form-card">
+      <p class="sec-link">Already applied? <a href="#" data-modal="status-modal">Check admission status with the Role ID</a></p>
+      <div class="admission-open-wrap" id="admission-open-wrap">
+        <button type="button" class="btn btn-gold" id="admission-open-btn">Fill the Admission Form</button>
+      </div>
+      <div class="form-card hidden" id="admission-form-card">
         <form id="admission-form" novalidate>
           <div class="form-row">
             <div class="form-grp">
@@ -209,27 +214,6 @@
     </div>
   </section>
 
-
-  <!-- ================= STATUS CHECK ================= -->
-  <section class="section section-alt" id="status">
-    <div class="container">
-      <h2 class="sec-title">Check Admission Status</h2>
-      <p class="sec-sub">Enter the student's Role ID to see attendance, fee and published results.</p>
-      <div class="form-card">
-        <form id="status-form" novalidate>
-          <div class="form-grp">
-            <label for="role-id-input">Role ID *</label>
-            <input id="role-id-input" name="role_id" type="text" autocomplete="off" placeholder="e.g. AMA-101-XXX" />
-            <p class="field-err" id="err-role-id"></p>
-          </div>
-          <p class="form-note">The Role ID is on the student's profile in the academy app &mdash; ask the academy office if you do not have it.</p>
-          <button type="submit" class="btn btn-navy btn-block" id="status-submit">Check Status</button>
-          <p class="form-msg" id="status-msg" role="status"></p>
-        </form>
-        <div id="status-result" class="hidden"></div>
-      </div>
-    </div>
-  </section>
 
   <!-- ================= TEACHERS ================= -->
   <section class="section section-alt" id="teachers">
@@ -348,44 +332,6 @@
   </section>
 
 
-  <!-- ================= ADMIN LOGIN ================= -->
-  <section class="section" id="admin">
-    <div class="container">
-      <h2 class="sec-title">Admin Login</h2>
-      <p class="sec-sub">For academy office use only &mdash; view new admission applications.</p>
-      <div class="form-card">
-        <form id="admin-login-form" novalidate>
-          <div class="form-grp">
-            <label for="admin-email">Admin email *</label>
-            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="Admin email" />
-            <p class="field-err" id="err-admin-email"></p>
-          </div>
-          <div class="form-grp">
-            <label for="admin-password">Password *</label>
-            <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Password" />
-            <p class="field-err" id="err-admin-password"></p>
-          </div>
-          <button type="submit" class="btn btn-navy btn-block" id="admin-login-btn">Log in</button>
-          <p class="form-msg" id="admin-login-msg" role="status"></p>
-        </form>
-        <div id="admin-panel" class="hidden">
-          <div class="admin-bar">
-            <div>
-              <h3>Admission Applications</h3>
-              <p class="admin-count" id="admin-count"></p>
-            </div>
-            <div class="admin-bar-btns">
-              <button type="button" class="btn btn-outline-navy btn-sm" id="admin-refresh">Refresh</button>
-              <button type="button" class="btn btn-navy btn-sm" id="admin-logout">Log out</button>
-            </div>
-          </div>
-          <p class="form-msg" id="admin-list-msg" role="status"></p>
-          <div id="admin-list" class="admin-list"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= DOWNLOAD APP ================= -->
   <section class="section" id="download">
     <div class="container">
@@ -418,14 +364,75 @@
         <a href="#teachers">Teachers</a>
         <a href="#notices">Notices</a>
         <a href="#contact">Contact</a>
-        <a href="#status">Status Check</a>
-        <a href="#admin">Admin Login</a>
+        <a href="#" data-modal="status-modal">Status Check</a>
+        <a href="#" data-modal="admin-modal">Admin Login</a>
       </nav>
     </div>
     <div class="footer-bottom">
       <div class="container">&copy; 2026 Ammara Girls Academy, Sakhi Sarwar</div>
     </div>
   </footer>
+
+  <!-- ================= STATUS MODAL (from the menu) ================= -->
+  <div class="modal" id="status-modal" role="dialog" aria-modal="true" aria-labelledby="status-modal-title">
+    <div class="modal-card">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+      <h3 class="modal-title" id="status-modal-title">Check Admission Status</h3>
+      <p class="modal-sub">Enter the student's Role ID to see attendance, fee and published results.</p>
+      <div class="form-card modal-form-card">
+        <form id="status-form" novalidate>
+          <div class="form-grp">
+            <label for="role-id-input">Role ID *</label>
+            <input id="role-id-input" name="role_id" type="text" autocomplete="off" placeholder="e.g. AMA-101-XXX" />
+            <p class="field-err" id="err-role-id"></p>
+          </div>
+          <p class="form-note">The Role ID is on the student's profile in the academy app &mdash; ask the academy office if you do not have it.</p>
+          <button type="submit" class="btn btn-navy btn-block" id="status-submit">Check Status</button>
+          <p class="form-msg" id="status-msg" role="status"></p>
+        </form>
+        <div id="status-result" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN MODAL (from the menu) ================= -->
+  <div class="modal" id="admin-modal" role="dialog" aria-modal="true" aria-labelledby="admin-modal-title">
+    <div class="modal-card modal-wide">
+      <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+      <h3 class="modal-title" id="admin-modal-title">Admin Login</h3>
+      <p class="modal-sub">For academy office use only &mdash; view new admission applications.</p>
+      <div class="form-card modal-form-card">
+        <form id="admin-login-form" novalidate>
+          <div class="form-grp">
+            <label for="admin-email">Admin email *</label>
+            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="Admin email" />
+            <p class="field-err" id="err-admin-email"></p>
+          </div>
+          <div class="form-grp">
+            <label for="admin-password">Password *</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Password" />
+            <p class="field-err" id="err-admin-password"></p>
+          </div>
+          <button type="submit" class="btn btn-navy btn-block" id="admin-login-btn">Log in</button>
+          <p class="form-msg" id="admin-login-msg" role="status"></p>
+        </form>
+        <div id="admin-panel" class="hidden">
+          <div class="admin-bar">
+            <div>
+              <h3>Admission Applications</h3>
+              <p class="admin-count" id="admin-count"></p>
+            </div>
+            <div class="admin-bar-btns">
+              <button type="button" class="btn btn-outline-navy btn-sm" id="admin-refresh">Refresh</button>
+              <button type="button" class="btn btn-navy btn-sm" id="admin-logout">Log out</button>
+            </div>
+          </div>
+          <p class="form-msg" id="admin-list-msg" role="status"></p>
+          <div id="admin-list" class="admin-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

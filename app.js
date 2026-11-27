@@ -55,6 +55,47 @@ function phoneOk(v) {
   });
 })();
 
+
+/* ---------- Modals: Status Check + Admin Login (opened from the menu) ---------- */
+(function () {
+  var nav = $("main-nav");
+  var toggle = $("nav-toggle");
+  function closeNav() {
+    if (nav) nav.classList.remove("open");
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+  }
+  function openModal(id) {
+    var m = $(id);
+    if (!m) return;
+    closeNav();
+    m.classList.add("open");
+    document.body.classList.add("modal-open");
+  }
+  function closeModal(m) {
+    m.classList.remove("open");
+    if (!document.querySelector(".modal.open")) document.body.classList.remove("modal-open");
+  }
+  document.querySelectorAll("[data-modal]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      openModal(el.getAttribute("data-modal"));
+    });
+  });
+  document.querySelectorAll(".modal").forEach(function (m) {
+    m.addEventListener("click", function (e) {
+      if (e.target === m) closeModal(m);
+    });
+    m.querySelectorAll("[data-close-modal]").forEach(function (btn) {
+      btn.addEventListener("click", function () { closeModal(m); });
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal.open").forEach(function (m) { closeModal(m); });
+    }
+  });
+})();
+
 /* ---------- Notices (live from Supabase) ---------- */
 (function loadNotices() {
   var list = $("notices-list");
@@ -250,26 +291,43 @@ function phoneOk(v) {
   });
 })();
 
-/* ---------- Admission buttons: scroll to the form, flash it, focus it ---------- */
+/* ---------- Admission buttons: reveal the form, scroll to it, flash it, focus it ----------
+   The form stays hidden until a button is pressed (hero, header, nav or the
+   section's own "Fill the Admission Form" button). */
 (function () {
+  function revealForm() {
+    var card = $("admission-form-card");
+    var wrap = $("admission-open-wrap");
+    if (card) card.classList.remove("hidden");
+    if (wrap) wrap.classList.add("hidden");
+  }
+  function flashAndFocus() {
+    var card = $("admission-form-card");
+    var form = $("admission-form");
+    if (card) {
+      card.classList.remove("flash");
+      void card.offsetWidth; /* restart the animation */
+      card.classList.add("flash");
+    }
+    if (form && !form.classList.contains("hidden")) {
+      var first = $("student-name");
+      if (first) first.focus({ preventScroll: true });
+    }
+  }
   var links = document.querySelectorAll('a[href="#admissions"]');
   links.forEach(function (a) {
     a.addEventListener("click", function () {
-      setTimeout(function () {
-        var card = document.querySelector("#admissions .form-card");
-        var form = $("admission-form");
-        if (card) {
-          card.classList.remove("flash");
-          void card.offsetWidth; /* restart the animation */
-          card.classList.add("flash");
-        }
-        if (form && !form.classList.contains("hidden")) {
-          var first = $("student-name");
-          if (first) first.focus({ preventScroll: true });
-        }
-      }, 650);
+      revealForm();
+      setTimeout(flashAndFocus, 650);
     });
   });
+  var openBtn = $("admission-open-btn");
+  if (openBtn) {
+    openBtn.addEventListener("click", function () {
+      revealForm();
+      flashAndFocus();
+    });
+  }
 })();
 
 /* ---------- Role ID status check (same student_login RPC as the app) ---------- */
