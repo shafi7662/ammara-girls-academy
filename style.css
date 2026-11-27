@@ -488,3 +488,60 @@ section { scroll-margin-top: 84px; }
   .brand-text small { display: none; }
   .section { padding: 34px 0; }
 }
+
+/* ---------- Admission form flash (button scrolls the form into view) ---------- */
+.form-card.flash { animation: formFlash 2.4s ease; }
+@keyframes formFlash {
+  0%, 100% { box-shadow: var(--shadow-card); }
+  15%, 55% { box-shadow: 0 0 0 3px var(--gold-400), 0 8px 24px rgba(212, 160, 23, 0.35); }
+}
+
+/* ---------- Hero alt link + section link ---------- */
+.hero-alt-link { margin-top: 16px; font-size: 13.5px; }
+.hero-alt-link a { color: var(--gold-400); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.sec-link { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+.sec-link a { color: var(--navy-900); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ---------- Status check ---------- */
+.status-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; margin: 6px 0 14px; }
+.status-head h3 { font-size: 18px; font-weight: 800; color: var(--navy-950); }
+.status-head p { font-size: 13.5px; color: var(--text-muted); }
+.status-pill { font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 999px; white-space: nowrap; }
+.pill-present { background-color: var(--emerald-50); color: var(--emerald-600); }
+.pill-absent { background-color: var(--crimson-50); color: var(--crimson-600); }
+.pill-notmarked { background-color: #F1F5F9; color: var(--text-muted); }
+.status-rows { border-top: 1px solid var(--border-subtle); }
+.status-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--border-subtle); font-size: 14px; }
+.status-row span { color: var(--text-muted); }
+.status-row strong { color: var(--navy-950); }
+.fee-due { color: var(--crimson-600); font-weight: 800; }
+.fee-paid { color: var(--emerald-600); font-weight: 800; }
+#status-result h4 { font-size: 14px; font-weight: 800; color: var(--navy-950); margin: 18px 0 8px; }
+.status-list { list-style: none; }
+.status-list li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 2px; border-bottom: 1px solid var(--border-subtle); font-size: 13.5px; }
+.status-list li span { color: var(--text-main); }
+.status-list li strong { color: var(--navy-950); white-space: nowrap; }
+.status-empty { font-size: 13.5px; color: var(--text-muted); }
+#status-again { margin-top: 18px; }
+
+/* ---------- Admin ---------- */
+.admin-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px; margin: 6px 0 14px; }
+.admin-bar h3 { font-size: 18px; font-weight: 800; color: var(--navy-950); }
+.admin-count { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+.admin-bar-btns { display: flex; gap: 8px; }
+.admin-list { display: flex; flex-direction: column; gap: 12px; }
+.enquiry-card { background-color: var(--bg-app); border-radius: 16px; padding: 16px; box-shadow: var(--shadow-card); }
+.enquiry-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.enquiry-head h3 { font-size: 15.5px; font-weight: 800; color: var(--navy-950); }
+.enquiry-pills { display: flex; gap: 6px; flex-shrink: 0; }
+.type-pill, .status-pill-sm { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.type-admission { background-color: #EFF6FF; color: #1D4ED8; }
+.type-contact { background-color: #F5F3FF; color: #6B21A8; }
+.status-pending { background-color: var(--gold-100); color: var(--gold-600); }
+.status-other { background-color: #F1F5F9; color: var(--text-muted); }
+.enquiry-meta { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.enquiry-msg { font-size: 13.5px; color: var(--text-main); margin-top: 8px; background-color: #FFFFFF; border-radius: 10px; padding: 10px 12px; }
+.enquiry-actions { margin-top: 12px; }
+.btn-whatsapp { background-color: var(--emerald-600); color: #FFFFFF; }
+.btn-whatsapp:hover { filter: brightness(1.1); }
+.btn-whatsapp.disabled { opacity: 0.55; cursor: not-allowed; }

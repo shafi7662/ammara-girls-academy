@@ -55,9 +55,10 @@
         <span class="pill pill-2nd">2nd Year</span>
       </div>
       <div class="hero-ctas">
-        <a class="btn btn-gold" href="#admissions">Apply for Admission</a>
+        <a class="btn btn-gold" href="#admissions">Admission &mdash; New Enrollment</a>
         <a class="btn btn-outline-light" href="#download">Download App</a>
       </div>
+      <p class="hero-alt-link"><a href="#status">Check admission status with Role ID</a></p>
     </div>
   </section>
 
@@ -128,8 +129,9 @@
   <!-- ================= ADMISSIONS ================= -->
   <section class="section" id="admissions">
     <div class="container">
-      <h2 class="sec-title">Admissions — New Enrollment</h2>
+      <h2 class="sec-title">Admissions &mdash; New Enrollment</h2>
       <p class="sec-sub">Admission is open for all classes. Fill in the form and the academy office will contact you.</p>
+      <p class="sec-link">Already applied? <a href="#status">Check admission status with the Role ID</a></p>
       <div class="form-card">
         <form id="admission-form" novalidate>
           <div class="form-row">
@@ -203,6 +205,28 @@
           <p>Application received — the academy office will contact you.</p>
           <button type="button" class="btn btn-outline-navy" id="admission-again">Submit another application</button>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= STATUS CHECK ================= -->
+  <section class="section section-alt" id="status">
+    <div class="container">
+      <h2 class="sec-title">Check Admission Status</h2>
+      <p class="sec-sub">Enter the student's Role ID to see attendance, fee and published results.</p>
+      <div class="form-card">
+        <form id="status-form" novalidate>
+          <div class="form-grp">
+            <label for="role-id-input">Role ID *</label>
+            <input id="role-id-input" name="role_id" type="text" autocomplete="off" placeholder="e.g. AMA-101-XXX" />
+            <p class="field-err" id="err-role-id"></p>
+          </div>
+          <p class="form-note">The Role ID is on the student's profile in the academy app &mdash; ask the academy office if you do not have it.</p>
+          <button type="submit" class="btn btn-navy btn-block" id="status-submit">Check Status</button>
+          <p class="form-msg" id="status-msg" role="status"></p>
+        </form>
+        <div id="status-result" class="hidden"></div>
       </div>
     </div>
   </section>
@@ -323,6 +347,45 @@
     </div>
   </section>
 
+
+  <!-- ================= ADMIN LOGIN ================= -->
+  <section class="section" id="admin">
+    <div class="container">
+      <h2 class="sec-title">Admin Login</h2>
+      <p class="sec-sub">For academy office use only &mdash; view new admission applications.</p>
+      <div class="form-card">
+        <form id="admin-login-form" novalidate>
+          <div class="form-grp">
+            <label for="admin-email">Admin email *</label>
+            <input id="admin-email" name="email" type="email" autocomplete="username" placeholder="Admin email" />
+            <p class="field-err" id="err-admin-email"></p>
+          </div>
+          <div class="form-grp">
+            <label for="admin-password">Password *</label>
+            <input id="admin-password" name="password" type="password" autocomplete="current-password" placeholder="Password" />
+            <p class="field-err" id="err-admin-password"></p>
+          </div>
+          <button type="submit" class="btn btn-navy btn-block" id="admin-login-btn">Log in</button>
+          <p class="form-msg" id="admin-login-msg" role="status"></p>
+        </form>
+        <div id="admin-panel" class="hidden">
+          <div class="admin-bar">
+            <div>
+              <h3>Admission Applications</h3>
+              <p class="admin-count" id="admin-count"></p>
+            </div>
+            <div class="admin-bar-btns">
+              <button type="button" class="btn btn-outline-navy btn-sm" id="admin-refresh">Refresh</button>
+              <button type="button" class="btn btn-navy btn-sm" id="admin-logout">Log out</button>
+            </div>
+          </div>
+          <p class="form-msg" id="admin-list-msg" role="status"></p>
+          <div id="admin-list" class="admin-list"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= DOWNLOAD APP ================= -->
   <section class="section" id="download">
     <div class="container">
@@ -355,6 +418,8 @@
         <a href="#teachers">Teachers</a>
         <a href="#notices">Notices</a>
         <a href="#contact">Contact</a>
+        <a href="#status">Status Check</a>
+        <a href="#admin">Admin Login</a>
       </nav>
     </div>
     <div class="footer-bottom">

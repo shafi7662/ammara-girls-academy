@@ -20,6 +20,12 @@ function sbHeaders(extra) {
 
 function $(id) { return document.getElementById(id); }
 
+function escHtml(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
 function setErr(inputId, errId, msg) {
   var input = $(inputId);
   var err = $(errId);
@@ -242,4 +248,324 @@ function phoneOk(v) {
     submitBtn.disabled = false;
     submitBtn.textContent = "Send Message";
   });
+})();
+
+/* ---------- Admission buttons: scroll to the form, flash it, focus it ---------- */
+(function () {
+  var links = document.querySelectorAll('a[href="#admissions"]');
+  links.forEach(function (a) {
+    a.addEventListener("click", function () {
+      setTimeout(function () {
+        var card = document.querySelector("#admissions .form-card");
+        var form = $("admission-form");
+        if (card) {
+          card.classList.remove("flash");
+          void card.offsetWidth; /* restart the animation */
+          card.classList.add("flash");
+        }
+        if (form && !form.classList.contains("hidden")) {
+          var first = $("student-name");
+          if (first) first.focus({ preventScroll: true });
+        }
+      }, 650);
+    });
+  });
+})();
+
+/* ---------- Role ID status check (same student_login RPC as the app) ---------- */
+(function () {
+  var form = $("status-form");
+  if (!form) return;
+  var input = $("role-id-input");
+  var msg = $("status-msg");
+  var result = $("status-result");
+  var btn = $("status-submit");
+
+  function renderStatus(d) {
+    var fee = d.fee_balance > 0
+      ? '<span class="fee-due">Balance due: Rs ' + escHtml(d.fee_balance) + '</span>'
+      : '<span class="fee-paid">Fee paid in full</span>';
+    var attCls = d.attendance === "Present" ? "pill-present"
+      : d.attendance === "Absent" ? "pill-absent" : "pill-notmarked";
+    var html = '<div class="status-head"><div><h3>' + escHtml(d.name) + '</h3>'
+      + '<p>Class ' + escHtml(d.grade) + ' &bull; ' + escHtml(d.admission_no) + '</p></div>'
+      + '<span class="status-pill ' + attCls + '">' + escHtml(d.attendance) + ' today</span></div>'
+      + '<div class="status-rows">'
+      + '<div class="status-row"><span>Fee total</span><strong>Rs ' + escHtml(d.fee_total) + '</strong></div>'
+      + '<div class="status-row"><span>Fee paid</span><strong>Rs ' + escHtml(d.fee_paid) + '</strong></div>'
+      + '<div class="status-row"><span>Fee balance</span>' + fee + '</div>'
+      + '</div>';
+    html += '<h4>Published results</h4>';
+    if (d.assessments && d.assessments.length) {
+      html += '<ul class="status-list">';
+      d.assessments.forEach(function (a) {
+        var sc = (a.score === null || a.score === undefined || a.score === "")
+          ? "&mdash;" : escHtml(a.score) + " / " + escHtml(a.max_score);
+        html += '<li><span>' + escHtml(a.title) + (a.subject ? ' &bull; ' + escHtml(a.subject) : '')
+          + '</span><strong>' + sc + '</strong></li>';
+      });
+      html += '</ul>';
+    } else {
+      html += '<p class="status-empty">No published results yet.</p>';
+    }
+    if (d.notices && d.notices.length) {
+      html += '<h4>Latest notices</h4><ul class="status-list">';
+      d.notices.forEach(function (n) {
+        html += '<li><span>' + escHtml(n.title) + '</span><strong>' + escHtml(n.date || "") + '</strong></li>';
+      });
+      html += '</ul>';
+    }
+    html += '<button type="button" class="btn btn-outline-navy" id="status-again">Check another Role ID</button>';
+    result.innerHTML = html;
+    result.classList.remove("hidden");
+    $("status-again").addEventListener("click", function () {
+      result.classList.add("hidden");
+      result.innerHTML = "";
+      form.reset();
+      input.focus();
+    });
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var roleId = input.value.trim().toUpperCase();
+    if (!roleId) { setErr("role-id-input", "err-role-id", "Please enter the Role ID."); return; }
+    setErr("role-id-input", "err-role-id", "");
+    msg.textContent = "";
+    msg.className = "form-msg";
+    result.classList.add("hidden");
+    result.innerHTML = "";
+    btn.disabled = true;
+    btn.textContent = "Checking\u2026";
+    fetch(SUPABASE_URL + "/rest/v1/rpc/student_login", {
+      method: "POST",
+      headers: sbHeaders(),
+      body: JSON.stringify({ p_role_id: roleId })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("status failed: " + res.status);
+        return res.json();
+      })
+      .then(function (d) {
+        btn.disabled = false;
+        btn.textContent = "Check Status";
+        if (!d || !d.ok) {
+          msg.textContent = "Role ID not found \u2014 please check it and try again.";
+          msg.classList.add("error");
+          return;
+        }
+        renderStatus(d);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        btn.textContent = "Check Status";
+        msg.textContent = "Could not check the status \u2014 please try again.";
+        msg.classList.add("error");
+      });
+  });
+})();
+
+/* ---------- Admin login (Supabase Auth; admin-only via is_admin) ----------
+   The login uses the SAME admin email + password as the academy app.
+   The token lives only in sessionStorage (cleared on logout / tab close).
+   Applications are readable ONLY after the is_admin() check passes, so a
+   teacher/parent login sees nothing here. */
+(function () {
+  var form = $("admin-login-form");
+  if (!form) return;
+  var panel = $("admin-panel");
+  var listEl = $("admin-list");
+  var listMsg = $("admin-list-msg");
+  var countEl = $("admin-count");
+  var loginMsg = $("admin-login-msg");
+  var loginBtn = $("admin-login-btn");
+  var TOKEN_KEY = "aga_admin_token";
+  var EMAIL_KEY = "aga_admin_email";
+
+  function authHeaders(token) {
+    return {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
+    };
+  }
+
+  function waNumber(raw) {
+    var digits = (raw || "").replace(/\D/g, "");
+    if (digits.length === 11 && digits.charAt(0) === "0") return "92" + digits.slice(1);
+    if (digits.length === 10 && digits.charAt(0) === "3") return "92" + digits;
+    return digits;
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    return isNaN(d.getTime()) ? "" : d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  }
+
+  function renderEnquiries(rows) {
+    var pending = rows.filter(function (r) { return r.status === "pending"; }).length;
+    countEl.textContent = rows.length + " application" + (rows.length === 1 ? "" : "s")
+      + " \u2014 " + pending + " new";
+    if (!rows.length) {
+      listEl.innerHTML = "";
+      listMsg.textContent = "No applications yet.";
+      listMsg.className = "form-msg info";
+      return;
+    }
+    listMsg.textContent = "";
+    listMsg.className = "form-msg";
+    var html = "";
+    rows.forEach(function (r) {
+      var isAdmission = r.type === "admission";
+      var waText = isAdmission
+        ? "Assalam-o-Alaikum! Ammara Girls Academy ko " + (r.student_name || "aap ke bache")
+          + " ki admission application mil gayi hai. Class: " + (r.class_applying || "")
+          + ". Hamari team jald aap se rabta karegi. Shukriya! - Ammara Girls Academy, Sakhi Sarwar"
+        : "Assalam-o-Alaikum! Ammara Girls Academy ko aap ka message mil gaya hai."
+          + " Hamari team jald aap se rabta karegi. Shukriya! - Ammara Girls Academy, Sakhi Sarwar";
+      var num = waNumber(r.guardian_phone);
+      var meta = (isAdmission ? "Class " + (r.class_applying || "\u2014") + " \u2022 " : "")
+        + (r.father_name ? "Father: " + r.father_name + " \u2022 " : "")
+        + (r.guardian_phone ? r.guardian_phone + " \u2022 " : "")
+        + fmtDate(r.created_at);
+      html += '<article class="enquiry-card"><div class="enquiry-head"><h3>' + escHtml(r.student_name || "(No name)") + '</h3>'
+        + '<span class="enquiry-pills"><span class="type-pill ' + (isAdmission ? "type-admission" : "type-contact") + '">'
+        + (isAdmission ? "Admission" : "Message") + '</span>'
+        + '<span class="status-pill-sm ' + (r.status === "pending" ? "status-pending" : "status-other") + '">'
+        + escHtml(r.status || "") + '</span></span></div>'
+        + '<p class="enquiry-meta">' + escHtml(meta) + '</p>';
+      if (!isAdmission && r.message) {
+        html += '<p class="enquiry-msg">' + escHtml(r.message) + '</p>';
+      }
+      html += '<div class="enquiry-actions">';
+      if (num) {
+        html += '<a class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener" href="https://wa.me/' + num
+          + '?text=' + encodeURIComponent(waText) + '">WhatsApp ' + (isAdmission ? "Admission" : "Reply") + '</a>';
+      } else {
+        html += '<span class="btn btn-whatsapp btn-sm disabled">No phone number</span>';
+      }
+      html += '</div></article>';
+    });
+    listEl.innerHTML = html;
+  }
+
+  function showPanel() {
+    form.classList.add("hidden");
+    panel.classList.remove("hidden");
+    loadEnquiries();
+  }
+
+  function showLogin() {
+    panel.classList.add("hidden");
+    form.classList.remove("hidden");
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(EMAIL_KEY);
+  }
+
+  function loadEnquiries() {
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    if (!token) { showLogin(); return; }
+    listMsg.textContent = "Loading applications\u2026";
+    listMsg.className = "form-msg info";
+    fetch(SUPABASE_URL + "/rest/v1/website_enquiries?select=id,type,student_name,father_name,class_applying,guardian_phone,message,status,created_at&order=created_at.desc&limit=50", {
+      headers: authHeaders(token)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("load failed: " + res.status);
+        return res.json();
+      })
+      .then(function (rows) { renderEnquiries(rows || []); })
+      .catch(function () {
+        listMsg.textContent = "Could not load applications \u2014 please log in again.";
+        listMsg.className = "form-msg error";
+      });
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var email = $("admin-email").value.trim();
+    var pw = $("admin-password").value;
+    var ok = true;
+    if (!email) { setErr("admin-email", "err-admin-email", "Please enter the admin email."); ok = false; }
+    else setErr("admin-email", "err-admin-email", "");
+    if (!pw) { setErr("admin-password", "err-admin-password", "Please enter the password."); ok = false; }
+    else setErr("admin-password", "err-admin-password", "");
+    if (!ok) return;
+    loginMsg.textContent = "";
+    loginMsg.className = "form-msg";
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Signing in\u2026";
+    fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
+      method: "POST",
+      headers: sbHeaders(),
+      body: JSON.stringify({ email: email, password: pw })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("login failed: " + res.status);
+        return res.json();
+      })
+      .then(function (d) {
+        if (!d || !d.access_token) throw new Error("no token");
+        var token = d.access_token;
+        return fetch(SUPABASE_URL + "/rest/v1/rpc/is_admin", {
+          method: "POST",
+          headers: authHeaders(token),
+          body: "{}"
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error("admin check failed");
+            return res.json();
+          })
+          .then(function (isAdmin) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Log in";
+            if (isAdmin !== true) {
+              loginMsg.textContent = "This account is not an admin account.";
+              loginMsg.classList.add("error");
+              return;
+            }
+            sessionStorage.setItem(TOKEN_KEY, token);
+            sessionStorage.setItem(EMAIL_KEY, email);
+            showPanel();
+          })
+          .catch(function (err) {
+            loginBtn.disabled = false;
+            loginBtn.textContent = "Log in";
+            if (err && err.message === "admin check failed") {
+              loginMsg.textContent = "Could not verify the admin account \u2014 please try again.";
+            } else {
+              loginMsg.textContent = "Wrong email or password \u2014 please try again.";
+            }
+            loginMsg.classList.add("error");
+          });
+      })
+      .catch(function () {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Log in";
+        loginMsg.textContent = "Wrong email or password \u2014 please try again.";
+        loginMsg.classList.add("error");
+      });
+  });
+
+  $("admin-logout").addEventListener("click", function () { showLogin(); });
+  $("admin-refresh").addEventListener("click", function () { loadEnquiries(); });
+
+  /* Resume a session in this tab (verified as admin again first). */
+  (function () {
+    var token = sessionStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+    fetch(SUPABASE_URL + "/rest/v1/rpc/is_admin", {
+      method: "POST",
+      headers: authHeaders(token),
+      body: "{}"
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error("session check failed");
+        return res.json();
+      })
+      .then(function (isAdmin) { if (isAdmin === true) showPanel(); })
+      .catch(function () { /* stay on the login form */ });
+  })();
 })();
