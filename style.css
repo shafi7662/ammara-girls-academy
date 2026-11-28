@@ -3,7 +3,7 @@
    light academic theme, deep navy, gold, maroon, purple. No neon, no glass. */
 
 :root {
-  --bg-app: #F3F5F9;
+  --bg-app: #FFF7F0;
   --bg-card: #FFFFFF;
   --navy-950: #0D1836;
   --navy-900: #1A2B56;
@@ -49,7 +49,7 @@ a { text-decoration: none; color: inherit; }
 section { scroll-margin-top: 84px; }
 
 /* Gold top bar (single full-width line, like the app) */
-.top-brand-bar { height: 5px; width: 100%; background: linear-gradient(90deg, #EC4899 0%, #E5B53B 35%, #7C3AED 65%, #2563EB 100%); }
+.top-brand-bar { height: 8px; width: 100%; background: linear-gradient(90deg, #F43F5E, #F97316, #FACC15, #22C55E, #3B82F6); }
 
 /* ---------- Header ---------- */
 .site-header {
@@ -146,7 +146,7 @@ section { scroll-margin-top: 84px; }
 .btn-navy { background-color: var(--navy-900); color: #FFFFFF; }
 .btn-navy:hover { filter: brightness(1.15); }
 
-.btn-gold { background-color: var(--gold-400); color: var(--navy-950); }
+.btn-gold { background-color: #DB2777; color: #FFFFFF; }
 .btn-gold:hover { filter: brightness(1.06); }
 
 .btn-outline-light {
@@ -167,11 +167,11 @@ section { scroll-margin-top: 84px; }
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(160deg, var(--navy-600) 0%, var(--purple-900) 55%, var(--maroon-800) 100%);
+  background: linear-gradient(160deg, #F43F5E 0%, #F97316 55%, #FACC15 100%);
   color: #FFFFFF;
   text-align: center;
   padding: 52px 0 56px;
-  border-bottom: 4px solid var(--gold-400);
+  border-bottom: 4px solid #BE123C;
 }
 
 .hero-inner { display: flex; flex-direction: column; align-items: center; }
@@ -192,7 +192,7 @@ section { scroll-margin-top: 84px; }
   font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: var(--gold-400);
+  color: #FEF08A;
   margin-bottom: 8px;
 }
 
@@ -241,7 +241,7 @@ section { scroll-margin-top: 84px; }
 .sec-title {
   font-size: 22px;
   font-weight: 800;
-  color: var(--navy-950);
+  color: #BE123C;
   letter-spacing: -0.4px;
 }
 .sec-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; font-weight: 500; }
@@ -265,6 +265,12 @@ section { scroll-margin-top: 84px; }
 .section-alt .card { background-color: var(--bg-app); }
 .card h3 { font-size: 16.5px; font-weight: 800; color: var(--navy-950); margin-bottom: 6px; }
 .card p { font-size: 13.5px; color: var(--text-muted); }
+
+/* Candy Pop (v3.1): pastel cards, cycling colours. */
+.card-grid .card:nth-child(4n+1) { background-color: #FCE7F3; }
+.card-grid .card:nth-child(4n+2) { background-color: #FFEDD5; }
+.card-grid .card:nth-child(4n+3) { background-color: #FEF9C3; }
+.card-grid .card:nth-child(4n+4) { background-color: #D1FAE5; }
 
 .card-icon {
   width: 44px;
@@ -426,13 +432,13 @@ section { scroll-margin-top: 84px; }
 
 /* ---------- Download ---------- */
 .download-card {
-  background-color: var(--navy-900);
+  background: linear-gradient(135deg, #F43F5E 0%, #F97316 100%);
   border-radius: 24px;
   padding: 32px 22px;
   text-align: center;
   color: #FFFFFF;
-  box-shadow: 0 12px 28px rgba(26, 43, 86, 0.25);
-  border-top: 4px solid var(--gold-400);
+  box-shadow: 0 12px 28px rgba(249, 115, 22, 0.35);
+  border-top: 4px solid #FACC15;
 }
 .download-logo {
   width: 96px;
@@ -510,7 +516,7 @@ section { scroll-margin-top: 84px; }
 
 /* ---------- Hero alt link + section link ---------- */
 .hero-alt-link { margin-top: 16px; font-size: 13.5px; }
-.hero-alt-link a { color: var(--gold-400); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.hero-alt-link a { color: #FFFFFF; font-weight: 700; text-decoration: none; background-color: rgba(190, 18, 60, 0.55); padding: 6px 14px; border-radius: 999px; }
 .sec-link { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
 .sec-link a { color: var(--navy-900); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 
