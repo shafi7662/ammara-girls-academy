@@ -49,7 +49,7 @@ a { text-decoration: none; color: inherit; }
 section { scroll-margin-top: 84px; }
 
 /* Gold top bar (single full-width line, like the app) */
-.top-brand-bar { height: 4px; width: 100%; background-color: var(--gold-400); }
+.top-brand-bar { height: 5px; width: 100%; background: linear-gradient(90deg, #EC4899 0%, #E5B53B 35%, #7C3AED 65%, #2563EB 100%); }
 
 /* ---------- Header ---------- */
 .site-header {
@@ -167,7 +167,7 @@ section { scroll-margin-top: 84px; }
 
 /* ---------- Hero ---------- */
 .hero {
-  background: linear-gradient(160deg, var(--navy-600) 0%, var(--navy-500) 55%, var(--navy-900) 100%);
+  background: linear-gradient(160deg, var(--navy-600) 0%, var(--purple-900) 55%, var(--maroon-800) 100%);
   color: #FFFFFF;
   text-align: center;
   padding: 52px 0 56px;
@@ -219,6 +219,18 @@ section { scroll-margin-top: 84px; }
 .pill-10th { background-color: #1D4ED8; }
 .pill-1st { background-color: #047857; }
 .pill-2nd { background-color: #6B21A8; }
+
+.timing-pill {
+  display: inline-block;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #FFFFFF;
+  background-color: #BE185D;
+  padding: 7px 18px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(190, 24, 93, 0.45);
+}
 
 .hero-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 
