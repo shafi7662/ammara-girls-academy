@@ -340,18 +340,23 @@ function phoneOk(v) {
   var btn = $("status-submit");
 
   function renderStatus(d) {
-    var fee = d.fee_balance > 0
-      ? '<span class="fee-due">Balance due: Rs ' + escHtml(d.fee_balance) + '</span>'
-      : '<span class="fee-paid">Fee paid in full</span>';
+    var isFree = (d.fee_type || "full") === "free";
+    var fee = isFree
+      ? '<span class="fee-paid">Fee maaf hai</span>'
+      : (d.fee_balance > 0
+        ? '<span class="fee-due">Balance due: Rs ' + escHtml(d.fee_balance) + '</span>'
+        : '<span class="fee-paid">Fee paid in full</span>');
     var attCls = d.attendance === "Present" ? "pill-present"
       : d.attendance === "Absent" ? "pill-absent" : "pill-notmarked";
     var html = '<div class="status-head"><div><h3>' + escHtml(d.name) + '</h3>'
       + '<p>Class ' + escHtml(d.grade) + ' &bull; ' + escHtml(d.admission_no) + '</p></div>'
       + '<span class="status-pill ' + attCls + '">' + escHtml(d.attendance) + ' today</span></div>'
       + '<div class="status-rows">'
-      + '<div class="status-row"><span>Fee total</span><strong>Rs ' + escHtml(d.fee_total) + '</strong></div>'
+      + '<div class="status-row"><span>Fee total</span><strong>Rs ' + escHtml((d.fee_effective != null) ? d.fee_effective : d.fee_total) + '</strong></div>'
+      + ((d.fee_type === "concession") ? '<div class="status-row"><span>Concession</span><strong>Rs ' + escHtml(d.fee_concession || 0) + '</strong></div>' : "")
       + '<div class="status-row"><span>Fee paid</span><strong>Rs ' + escHtml(d.fee_paid) + '</strong></div>'
       + '<div class="status-row"><span>Fee balance</span>' + fee + '</div>'
+      + (d.fee_sponsor ? '<div class="status-row"><span>Sponsor</span><strong>' + escHtml(d.fee_sponsor) + '</strong></div>' : "")
       + '</div>';
     html += '<h4>Published results</h4>';
     if (d.assessments && d.assessments.length) {
